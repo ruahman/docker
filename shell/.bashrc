@@ -38,3 +38,15 @@ go(){
     "$@"
 }
 
+arch(){
+  podman run \
+    --interactive \
+    --tty \
+    --rm \
+    --volume $PWD:/home/ruahman/code \
+    --workdir /home/ruahman/code \
+    --entrypoint /bin/zsh \
+    archlinux:ruahman \
+    "$@"
+}
+
