@@ -24,9 +24,14 @@ RUN yay -Syu rust \
              deno \
              nodejs \
              npm \
+             ruby \
+             jdk \
              python \
              python-pip \
+             php \
+             compose \
              luarocks \
+             julia \
              neovim \
              tmux \
              zsh \
@@ -53,6 +58,7 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN pip install debugpy
 RUN pip install neovim
 RUN sudo npm install -g neovim
+RUN sudo gem install neovim
 
 WORKDIR /home/ruahman/.config/
 
