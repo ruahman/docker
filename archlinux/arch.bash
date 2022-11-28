@@ -1,7 +1,8 @@
+export ARCH_TAG="1.0.0"
 
 arch(){
   if [ -z "$2" ]; then
-    tag="1.0.0"
+    tag=$ARCH_TAG
   else
     tag=$2
   fi
@@ -11,30 +12,26 @@ arch(){
   if [ "$1" = "build" ]; then
     command='buildah bud -t arch:$tag $SOURCE_DIR'
   elif [ "$1" = "run" ]; then
-    command='podman run \
-      --interactive \
-      --tty \
-      --name arch \
-      --volume $PWD:/home/ruahman/code \
-      --workdir /home/ruahman/code \
-      --entrypoint /bin/zsh \
-      arch:1.0.0'
+    command='podman run -it --name arch -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
   elif [ "$1" = "start" ]; then
-    echo "...arch start"
-    podman container start arch
+    command='podman start arch'
   elif [ "$1" = "stop" ]; then
-    echo "...arch stop"
-    podman container rm arch
+    command='podman stop arch'
   elif [ "$1" = "commit" ]; then
-    echo "...arch commit"
+    command='podman commit arch arch:$tag'
   elif [ "$1" = "rm" ]; then
-    podman container rm arch
+    command='podman rm arch'
   else
+    #command='podman run -it --rm -v cargo:/home/ruahman/.cargo -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
     command='podman run -it --rm -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
   fi
 
   echo $command
   eval $command
+}
+
+refresh(){
+  source ~/.bashrc
 }
 
 prune_images(){
@@ -43,9 +40,5 @@ prune_images(){
 
 prune_container(){
   podman container prune
-}
-
-build_arch(){
-  buildah bud -t arch:1.0.0 .
 }
 
