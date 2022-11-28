@@ -18,7 +18,7 @@ RUN git clone https://aur.archlinux.org/yay.git \
   # Clean up
   && rm -rf .cache yay
 
-RUN yay -Syu rust \
+RUN yay -Syu rustup \
              go \
              clang \
              deno \
@@ -50,6 +50,7 @@ COPY .zshrc /home/ruahman/
 
 SHELL ["/bin/zsh","-c"]
 
+RUN rustup default stable
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN pip install debugpy
 RUN pip install neovim
