@@ -25,13 +25,9 @@ RUN yay -Syu rust \
              nodejs \
              npm \
              ruby \
-             jdk \
              python \
              python-pip \
-             php \
-             compose \
              luarocks \
-             julia \
              neovim \
              tmux \
              zsh \
