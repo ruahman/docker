@@ -59,10 +59,11 @@ WORKDIR /home/ruahman/.config/
 ENV TERM xterm-256color
 
 WORKDIR /home/ruahman/.ssh/
-COPY id_rsa .
-COPY id_rsa.pub .
+COPY id_ed25519 .
+COPY id_ed25519.pub .
 COPY known_hosts .
-RUN sudo chown ruahman:ruahman id_rsa
+RUN sudo chown ruahman:ruahman id_ed25519
+RUN sudo chown ruahman:ruahman known_hosts
 
 WORKDIR /home/ruahman/.config/
 RUN git config --global user.email "dego_vila@yahoo.com" && \
