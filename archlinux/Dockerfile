@@ -54,8 +54,9 @@ RUN rustup default stable
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN pip install debugpy
 RUN pip install neovim
+ENV PATH="$PATH:/home/ruahman/.local/share/gem/ruby/3.0.0/bin"
 RUN sudo npm install -g neovim
-RUN sudo gem install neovim
+RUN gem install neovim
 
 WORKDIR /home/ruahman/.config/
 
@@ -72,6 +73,7 @@ WORKDIR /home/ruahman/.config/
 RUN git config --global user.email "dego_vila@yahoo.com" && \
     git config --global user.name "Diego Vila" && \
     git config --global core.editor "nvim" && \
+    git config --global --add safe.directory /code && \
     git clone git@github.com:ruahman/neovim.git nvim 
 
 WORKDIR /home/ruahman

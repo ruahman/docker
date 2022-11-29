@@ -12,7 +12,7 @@ arch(){
   if [ "$1" = "build" ]; then
     command='buildah bud -t arch:$tag $SOURCE_DIR'
   elif [ "$1" = "run" ]; then
-    command='podman run -it --name arch -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
+    command='podman run -it --name arch -v cargo:/home/ruahman/.cargo -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
   elif [ "$1" = "start" ]; then
     command='podman start arch'
   elif [ "$1" = "stop" ]; then
@@ -22,8 +22,7 @@ arch(){
   elif [ "$1" = "rm" ]; then
     command='podman rm arch'
   else
-    #command='podman run -it --rm -v cargo:/home/ruahman/.cargo -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
-    command='podman run -it --rm -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
+    command='podman run -it --rm -v cargo:/home/ruahman/.cargo -v $PWD:/code --workdir /code arch:$tag /bin/zsh'
   fi
 
   echo $command
