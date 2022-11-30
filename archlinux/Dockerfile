@@ -30,6 +30,7 @@ RUN yay -Syu rustup \
              luarocks \
              neovim \
              tmux \
+             emacs \
              zsh \
              ripgrep \
              fd \

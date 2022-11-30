@@ -7,7 +7,7 @@ arch(){
     tag=$2
   fi
 
-  SOURCE_DIR=$(dirname $BASH_SOURCE)
+  SOURCE_DIR=$(dirname ${(%):-%x})
  
   if [ "$1" = "build" ]; then
     command='buildah bud -t arch:$tag $SOURCE_DIR'
@@ -29,15 +29,27 @@ arch(){
   eval $command
 }
 
-refresh(){
-  source ~/.bashrc
+tmux(){
+  command='podman run -it --rm -v $PWD:/code --workdir /code arch:$tag tmux'
+  echo $command
+  eval $command
 }
 
-prune_images(){
+#nvim(){
+#  command='podman run -it --rm -v $PWD:/code --workdir /code arch:$tag nvim'
+#  echo $command
+#  eval $command
+#}
+
+resource(){
+  source ~/.zshrc
+}
+
+purge_images(){
   podman rmi $(podman images --filter "dangling=true" -q --no-trunc)
 }
 
-prune_container(){
+purge_container(){
   podman container prune
 }
 
