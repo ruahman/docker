@@ -1,8 +1,6 @@
 FROM docker.io/library/archlinux:base-devel
 LABEL maintainer="ruahman <dego_vila@yahoo.com>"
 
-RUN pacman -Syu --needed --noconfirm git
-
 # ruahman user and workdir
 ARG user=ruahman
 RUN useradd --system --create-home $user \
@@ -10,73 +8,75 @@ RUN useradd --system --create-home $user \
 USER $user
 WORKDIR /home/$user
 
-# Install yay
-RUN git clone https://aur.archlinux.org/yay.git \
-  && cd yay \
-  && makepkg -sri --needed --noconfirm \
-  && cd \
-  # Clean up
-  && rm -rf .cache yay
-
-RUN yay -Syu rustup \
-             go \
-             clang \
-             deno \
-             nodejs \
-             npm \
-             ruby \
-             python \
-             python-pip \
-             luarocks \
-             neovim \
-             tmux \
-             emacs \
-             zsh \
-             ripgrep \
-             fd \
-             openssh \
-             wget \
-             unzip \
-             lldb \
-             --noconfirm
-
-RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-WORKDIR /home/ruahman/.oh-my-zsh/custom/plugins
-
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions && \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-
-COPY .zshrc /home/ruahman/
-
-SHELL ["/bin/zsh","-c"]
-
-RUN rustup default stable
-RUN go install github.com/go-delve/delve/cmd/dlv@latest
-RUN pip install debugpy
-RUN pip install neovim
-ENV PATH="$PATH:/home/ruahman/.local/share/gem/ruby/3.0.0/bin"
-RUN sudo npm install -g neovim
-RUN gem install neovim
-
-WORKDIR /home/ruahman/.config/
-
-ENV TERM xterm-256color
-
-WORKDIR /home/ruahman/.ssh/
-COPY id_ed25519 .
-COPY id_ed25519.pub .
-COPY known_hosts .
-RUN sudo chown ruahman:ruahman id_ed25519
-RUN sudo chown ruahman:ruahman known_hosts
-
-WORKDIR /home/ruahman/.config/
-RUN git config --global user.email "dego_vila@yahoo.com" && \
-    git config --global user.name "Diego Vila" && \
-    git config --global core.editor "nvim" && \
-    git config --global --add safe.directory /code && \
-    git clone git@github.com:ruahman/neovim.git nvim 
-
-WORKDIR /home/ruahman
-
-ENTRYPOINT ["/bin/zsh","-c"]
+#RUN pacman -Syu --needed --noconfirm git
+#
+## Install yay
+#RUN git clone https://aur.archlinux.org/yay.git \
+#  && cd yay \
+#  && makepkg -sri --needed --noconfirm \
+#  && cd \
+#  # Clean up
+#  && rm -rf .cache yay
+#
+#RUN yay -Syu rustup \
+#             go \
+#             clang \
+#             deno \
+#             nodejs \
+#             npm \
+#             ruby \
+#             python \
+#             python-pip \
+#             luarocks \
+#             neovim \
+#             tmux \
+#             emacs \
+#             zsh \
+#             ripgrep \
+#             fd \
+#             openssh \
+#             wget \
+#             unzip \
+#             lldb \
+#             --noconfirm
+#
+#RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#
+#WORKDIR /home/ruahman/.oh-my-zsh/custom/plugins
+#
+#RUN git clone https://github.com/zsh-users/zsh-autosuggestions && \
+#    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+#
+#COPY .zshrc /home/ruahman/
+#
+#SHELL ["/bin/zsh","-c"]
+#
+#RUN rustup default stable
+#RUN go install github.com/go-delve/delve/cmd/dlv@latest
+#RUN pip install debugpy
+#RUN pip install neovim
+#ENV PATH="$PATH:/home/ruahman/.local/share/gem/ruby/3.0.0/bin"
+#RUN sudo npm install -g neovim
+#RUN gem install neovim
+#
+#WORKDIR /home/ruahman/.config/
+#
+#ENV TERM xterm-256color
+#
+#WORKDIR /home/ruahman/.ssh/
+#COPY id_ed25519 .
+#COPY id_ed25519.pub .
+#COPY known_hosts .
+#RUN sudo chown ruahman:ruahman id_ed25519
+#RUN sudo chown ruahman:ruahman known_hosts
+#
+#WORKDIR /home/ruahman/.config/
+#RUN git config --global user.email "dego_vila@yahoo.com" && \
+#    git config --global user.name "Diego Vila" && \
+#    git config --global core.editor "nvim" && \
+#    git config --global --add safe.directory /code && \
+#    git clone git@github.com:ruahman/neovim.git nvim 
+#
+#WORKDIR /home/ruahman
+#
+#ENTRYPOINT ["/bin/zsh","-c"]
